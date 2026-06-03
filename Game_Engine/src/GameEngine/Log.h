@@ -20,3 +20,5 @@ namespace GameEngine
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 }
+
+
