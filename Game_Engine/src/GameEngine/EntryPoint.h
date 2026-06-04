@@ -12,8 +12,8 @@ int main(int argc, char** argv) {
  
 
 	GameEngine::Log::Init();
-	GE_CORE_WARN("Core logger initialized!");
-	GE_CORE_ERROR("Client logger initialized!");
+	GE_CORE_INFO("Core logger initialized!");
+	GE_CORE_INFO("Client logger initialized!");
 
 	printf("Game Engine\n");
 	auto app = GameEngine::CreateApplication();
