@@ -35,13 +35,13 @@ project "Game_Engine"
     includedirs
     {
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"        -- ADDED
+        "%{IncludeDir.GLFW}"
     }
 
     links
     {
-        "GLFW",                     -- ADDED
-        "opengl32.lib"              -- ADDED
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -89,8 +89,8 @@ project "Sandbox"
     includedirs
     {
         "Game_Engine/vendor/spdlog/include",
-        "Game_Engine/src",          -- FIXED: added comma
-        "%{IncludeDir.GLFW}"        -- FIXED: added comma on previous line
+        "Game_Engine/src",
+        "%{IncludeDir.GLFW}"
     }
 
     links
