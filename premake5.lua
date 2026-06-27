@@ -1,7 +1,6 @@
 workspace "Game_Engine"
     architecture "x64"
     startproject "Sandbox"
-
     configurations
     {
         "Debug",
@@ -11,6 +10,11 @@ workspace "Game_Engine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{prj.name}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Game_Engine/vendor/GLFW/include"
+
+include "Game_Engine/vendor/GLFW"
+
 project "Game_Engine"
     location "Game_Engine"
     kind "SharedLib"
@@ -18,7 +22,6 @@ project "Game_Engine"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
 
     pchheader "gepch.h"
     pchsource "Game_Engine/src/gepch.cpp"
@@ -31,7 +34,14 @@ project "Game_Engine"
 
     includedirs
     {
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"        -- ADDED
+    }
+
+    links
+    {
+        "GLFW",                     -- ADDED
+        "opengl32.lib"              -- ADDED
     }
 
     filter "system:windows"
@@ -47,7 +57,7 @@ project "Game_Engine"
 
         postbuildcommands
         {
-           ("{COPY} %{cfg.buildtarget.relpath} ../bin/%{cfg.buildcfg}-%{cfg.system}-Sandbox/Sandbox")
+            ("{COPY} %{cfg.buildtarget.relpath} ../bin/%{cfg.buildcfg}-%{cfg.system}-Sandbox/Sandbox")
         }
 
     filter "configurations:Debug"
@@ -62,7 +72,6 @@ project "Game_Engine"
         defines "GE_DIST"
         optimize "On"
 
-
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
@@ -71,9 +80,6 @@ project "Sandbox"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-
-
-    
     files
     {
         "%{prj.name}/src/**.h",
@@ -83,9 +89,9 @@ project "Sandbox"
     includedirs
     {
         "Game_Engine/vendor/spdlog/include",
-        "Game_Engine/src"
+        "Game_Engine/src",          -- FIXED: added comma
+        "%{IncludeDir.GLFW}"        -- FIXED: added comma on previous line
     }
-
 
     links
     {
@@ -102,7 +108,6 @@ project "Sandbox"
             "GE_PLATFORM_WINDOWS"
         }
 
-
     filter "configurations:Debug"
         defines "GE_DEBUG"
         symbols "On"
@@ -114,4 +119,3 @@ project "Sandbox"
     filter "configurations:Dist"
         defines "GE_DIST"
         optimize "On"
-
