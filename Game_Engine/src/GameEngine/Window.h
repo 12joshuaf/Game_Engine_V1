@@ -7,7 +7,7 @@
 
 
 
-namespace GameEngine {
+namespace Game_Engine {
 
 	struct WindowProps
 	{
